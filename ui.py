@@ -5,11 +5,12 @@ import re
 import nltk
 from nltk.corpus import stopwords
 import google.generativeai as genai  # 🔹 Gemini Import
+from pathlib import Path  # 🔹 Added for safe pickle load
 
 # ------------------------------
 # 🔹 Configure Gemini API
 # ------------------------------
-genai.configure(api_key="AIzaSyAlH40OjiXTgdeWkgLrnqCPVDIzk2NuegQ")   # <-- Replace with your actual key
+genai.configure(api_key="AIzaSyCIU6VRLma2vAB_inAka8bXYtyerxXbBQg")   # <-- Replace with your actual key
 
 # ------------------------------
 # 🔹 Download Stopwords
@@ -47,16 +48,24 @@ def get_gemini_suggestions(caption, engagement_score):
     4. Best hashtags to use
     """
 
-    model = genai.GenerativeModel("gemini-pro-latest")
-    response = model.generate_content(prompt)
+    model_gemini = genai.GenerativeModel("gemini-pro-latest")
+    response = model_gemini.generate_content(prompt)
 
     return response.text
 
 # ------------------------------
-# 🔹 Load Trained Model
+# 🔹 Load Trained Model (Safe for Streamlit Cloud)
 # ------------------------------
-with open("ads_predictor.pkl", "rb") as file:
-    model = pickle.load(file)
+BASE_DIR = Path(__file__).parent
+MODEL_PATH = BASE_DIR / "ads_predictor.pkl"
+
+try:
+    with open(MODEL_PATH, "rb") as file:
+        model = pickle.load(file)
+except FileNotFoundError:
+    st.error(f"Model file not found: {MODEL_PATH}")
+except Exception as e:
+    st.error(f"Error loading model: {e}")
 
 # ------------------------------
 # 🔹 Streamlit UI
@@ -112,4 +121,4 @@ if st.button("Predict Ad Engagement"):
 # 🔹 Footer
 # ------------------------------
 st.markdown("---")
-#st.caption("Developed by Najma Razzaq & Abdullah")
+# st.caption("Developed by Najma Razzaq & Abdullah")
