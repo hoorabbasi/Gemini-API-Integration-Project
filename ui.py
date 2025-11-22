@@ -10,7 +10,7 @@ from pathlib import Path  # 🔹 Added for safe pickle load
 # ------------------------------
 # 🔹 Configure Gemini API
 # ------------------------------
-genai.configure(api_key="AIzaSyCIU6VRLma2vAB_inAka8bXYtyerxXbBQg")   # <-- Replace with your actual key
+genai.configure(api_key="AIzaSyD_kmYXndlMw7ZhqgHz3Pdny9CFiTLcD4Q")   # <-- Replace with your actual key
 
 # ------------------------------
 # 🔹 Download Stopwords
