@@ -6,11 +6,16 @@ import nltk
 from nltk.corpus import stopwords
 import google.generativeai as genai  # 🔹 Gemini Import
 from pathlib import Path  # 🔹 Added for safe pickle load
+from dotenv import load_dotenv
+import os
 
 # ------------------------------
 # 🔹 Configure Gemini API
 # ------------------------------
-genai.configure(api_key="AIzaSyD_kmYXndlMw7ZhqgHz3Pdny9CFiTLcD4Q")   # <-- Replace with your actual key
+load_dotenv()
+GOOGLE_API_KEY = os.getenv("API_KEY")
+genai.configure(api_key= GOOGLE_API_KEY)
+#genai.configure(api_key="AIzaSyD_kmYXndlMw7ZhqgHz3Pdny9CFiTLcD4Q")   # <-- Replace with your actual key
 
 # ------------------------------
 # 🔹 Download Stopwords
