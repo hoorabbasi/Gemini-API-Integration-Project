@@ -12,9 +12,14 @@ import os
 # ------------------------------
 # 🔹 Configure Gemini API
 # ------------------------------
-load_dotenv()  # Load local .env file
-# Use Streamlit secrets first, fallback to .env
-GOOGLE_API_KEY = st.secrets.get("GEMINI_API_KEY") or os.getenv("API_KEY")
+load_dotenv()  # Load local .env
+
+try:
+    # Try Streamlit secrets first (Cloud)
+    GOOGLE_API_KEY = st.secrets.get("GEMINI_API_KEY")
+except st.errors.StreamlitSecretNotFoundError:
+    # Fallback to .env for local development
+    GOOGLE_API_KEY = os.getenv("API_KEY")
 
 if not GOOGLE_API_KEY:
     st.error("API key not found! Please set GEMINI_API_KEY in Streamlit secrets or your .env file.")
