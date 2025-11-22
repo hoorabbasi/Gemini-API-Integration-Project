@@ -126,4 +126,4 @@ if st.button("Predict Ad Engagement"):
 # 🔹 Footer
 # ------------------------------
 st.markdown("---")
-# st.caption("Developed by Najma Razzaq & Abdullah")
+
