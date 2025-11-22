@@ -12,10 +12,15 @@ import os
 # ------------------------------
 # 🔹 Configure Gemini API
 # ------------------------------
-load_dotenv()
-GOOGLE_API_KEY = os.getenv("API_KEY")
-genai.configure(api_key= GOOGLE_API_KEY)
-#genai.configure(api_key="AIzaSyD_kmYXndlMw7ZhqgHz3Pdny9CFiTLcD4Q")   # <-- Replace with your actual key
+load_dotenv()  # Load local .env file
+# Use Streamlit secrets first, fallback to .env
+GOOGLE_API_KEY = st.secrets.get("GEMINI_API_KEY") or os.getenv("API_KEY")
+
+if not GOOGLE_API_KEY:
+    st.error("API key not found! Please set GEMINI_API_KEY in Streamlit secrets or your .env file.")
+    st.stop()
+
+genai.configure(api_key=GOOGLE_API_KEY)
 
 # ------------------------------
 # 🔹 Download Stopwords
@@ -53,7 +58,7 @@ def get_gemini_suggestions(caption, engagement_score):
     4. Best hashtags to use
     """
 
-    model_gemini = genai.GenerativeModel("gemini-1.0-pro")
+    model_gemini = genai.GenerativeModel("gemini-pro-latest")
     response = model_gemini.generate_content([prompt])
 
     return response.text
@@ -126,4 +131,3 @@ if st.button("Predict Ad Engagement"):
 # 🔹 Footer
 # ------------------------------
 st.markdown("---")
-
