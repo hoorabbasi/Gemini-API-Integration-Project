@@ -48,8 +48,8 @@ def get_gemini_suggestions(caption, engagement_score):
     4. Best hashtags to use
     """
 
-    model_gemini = genai.GenerativeModel("gemini-pro-latest")
-    response = model_gemini.generate_content(prompt)
+    model_gemini = genai.GenerativeModel(""gemini-1.1-flash"")
+    response = model_gemini.generate_content([prompt])
 
     return response.text
 
